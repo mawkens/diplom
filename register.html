@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Регистрация / Вход — PixelMall</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com" />
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+<body>
+  <header>
+  <div class="container">
+    <div class="logo">PixelMall</div>
+    <nav>
+      <a href="index.html">Главная</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="cart.html">Корзина <span class="cart-counter"></span></a>
+      <div class="auth-buttons">
+        <button id="auth-btn" class="btn-auth">
+          <img src="images/user-icon.svg" alt="Войти">
+          <span>Войти</span>
+        </button>
+        <div class="auth-dropdown">
+          <form id="login-form" class="auth-form">
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Пароль" required>
+            <button type="submit" class="btn">Войти</button>
+            <div class="auth-links">
+              <a href="#" id="show-register">Создать аккаунт</a>
+              <a href="#">Забыли пароль?</a>
+            </div>
+          </form>
+          
+          <form id="register-form" class="auth-form" style="display:none">
+            <input type="text" placeholder="Имя" required>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Пароль" required>
+            <input type="password" placeholder="Повторите пароль" required>
+            <button type="submit" class="btn">Зарегистрироваться</button>
+            <div class="auth-links">
+              <a href="#" id="show-login">Уже есть аккаунт? Войти</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="mobile-menu-btn">☰</div>
+  </div>
+</header>
+  <main>
+    <div class="auth-container">
+      <section>
+        <h2>Регистрация</h2>
+        <form id="register-form" onsubmit="alert('Регистрация прошла успешно!'); return false;">
+          <input type="text" placeholder="Имя" required />
+          <input type="email" placeholder="Email" required />
+          <input type="password" placeholder="Пароль" required />
+          <button type="submit" class="btn">Зарегистрироваться</button>
+        </form>
+      </section>
+      <section>
+        <h2>Вход</h2>
+        <form id="login-form" onsubmit="alert('Вход выполнен!'); return false;">
+          <input type="email" placeholder="Email" required />
+          <input type="password" placeholder="Пароль" required />
+          <button type="submit" class="btn">Войти</button>
+        </form>
+      </section>
+      <div id="g-signin2"></div>
+    </div>
+  </main>
+  <script>
+    function onGoogleSignIn(googleUser) {
+      const profile = googleUser.getBasicProfile();
+      const name = profile.getName();
+      const email = profile.getEmail();
+      alert(`Вход через Google: ${name} (${email})`);
+    }
+
+    function renderButton() {
+      gapi.signin2.render('g-signin2', {
+        scope: 'profile email',
+        width: 240,
+        height: 50,
+        longtitle: true,
+        theme: 'dark',
+        onsuccess: onGoogleSignIn
+      });
+    }
+
+    window.onload = renderButton;
+  </script>
+</body>
+</html>

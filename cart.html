@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Корзина — PixelMall</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cart-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    #cart-items {
+      margin-bottom: 20px;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      gap: 20px;
+    }
+    .cart-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 5px;
+    }
+    .cart-item-details {
+      flex: 1;
+    }
+    .quantity-input {
+      width: 60px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      text-align: center;
+      margin: 0 10px;
+    }
+    .remove-btn {
+      background: #ff5555;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 15px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .total-price {
+      font-size: 1.5rem;
+      text-align: right;
+      margin: 30px 0;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .empty-cart {
+      text-align: center;
+      padding: 40px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    #order-form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+  <div class="container">
+    <div class="logo">PixelMall</div>
+    <nav>
+      <a href="index.html">Главная</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="cart.html">Корзина <span class="cart-counter"></span></a>
+      <div class="auth-buttons">
+        <button id="auth-btn" class="btn-auth">
+          <img src="images/user-icon.svg" alt="Войти">
+          <span>Войти</span>
+        </button>
+        <div class="auth-dropdown">
+          <form id="login-form" class="auth-form">
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Пароль" required>
+            <button type="submit" class="btn">Войти</button>
+            <div class="auth-links">
+              <a href="#" id="show-register">Создать аккаунт</a>
+              <a href="#">Забыли пароль?</a>
+            </div>
+          </form>
+          
+          <form id="register-form" class="auth-form" style="display:none">
+            <input type="text" placeholder="Имя" required>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Пароль" required>
+            <input type="password" placeholder="Повторите пароль" required>
+            <button type="submit" class="btn">Зарегистрироваться</button>
+            <div class="auth-links">
+              <a href="#" id="show-login">Уже есть аккаунт? Войти</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="mobile-menu-btn">☰</div>
+  </div>
+</header>
+  <main class="cart-container">
+    <div id="cart-items"></div>
+    <div class="total-price">
+      <strong>Итого: <span id="total-price">0</span>₽</strong>
+    </div>
+    <form id="order-form">
+      <h2>Оформление заказа</h2>
+      <input type="text" placeholder="Ваше имя" required>
+      <input type="tel" placeholder="Телефон" required>
+      <input type="text" placeholder="Адрес доставки" required>
+      <button type="submit" class="btn">Оформить заказ</button>
+    </form>
+  </main>
+  <script>
+    const products = [
+      { id: 1, name: "Смартфон PixelNova X", price: 29990, img: "images/6609432673.jpg" },
+      { id: 2, name: "Ноутбук ZBook Pro", price: 65990, img: "images/6827147955.jpg" },
+      { id: 3, name: "Наушники AirSound Pro", price: 5990, img: "images/6088634008.jpg" }
+    ];
+
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const container = document.getElementById('cart-items');
+      container.innerHTML = '';
+
+      let total = 0;
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p class="empty-cart">Корзина пуста.</p>';
+      } else {
+        cart.forEach(item => {
+          const product = products.find(p => p.id === item.id) || {};
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          
+          container.innerHTML += `
+            <div class="cart-item" data-id="${item.id}">
+              <img src="${product.img || 'images/placeholder.jpg'}" alt="${item.name}">
+              <div class="cart-item-details">
+                <h3>${item.name}</h3>
+                <p>Цена: ${item.price}₽</p>
+                <div class="quantity-control">
+                  <label>Количество:</label>
+                  <input type="number" min="1" class="quantity-input" 
+                         data-id="${item.id}" value="${item.quantity}">
+                </div>
+                <p>Сумма: ${itemTotal}₽</p>
+              </div>
+              <button class="remove-btn" data-id="${item.id}">Удалить</button>
+            </div>
+          `;
+        });
+      }
+
+      document.getElementById('total-price').textContent = total;
+
+      document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = parseInt(btn.dataset.id);
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          cart = cart.filter(item => item.id !== id);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          loadCart();
+          updateCartCounter();
+        });
+      });
+
+      document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('change', () => {
+          const id = parseInt(input.dataset.id);
+          const newQty = parseInt(input.value) || 1;
+          
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const item = cart.find(i => i.id === id);
+          
+          if (item) {
+            item.quantity = newQty;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+            updateCartCounter();
+          }
+        });
+      });
+    }
+
+    document.getElementById('order-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      
+      if (cart.length === 0) {
+        alert('Корзина пуста!');
+        return;
+      }
+      
+      alert('Заказ оформлен! Номер вашего заказа: #' + Math.floor(Math.random() * 10000));
+      localStorage.removeItem('cart');
+      loadCart();
+      updateCartCounter();
+    });
+
+    document.addEventListener('DOMContentLoaded', loadCart);
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
