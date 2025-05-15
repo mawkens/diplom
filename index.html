@@ -2,83 +2,53 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>PixelMall — Главная</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PixelMall - Главная</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Добавлены недостающие мета-теги -->
+  <meta name="description" content="Интернет-магазин электроники PixelMall">
 </head>
 <body>
   <header>
-  <div class="container">
-    <div class="logo">PixelMall</div>
-    <nav>
-      <a href="index.html">Главная</a>
-      <a href="catalog.html">Каталог</a>
-      <a href="cart.html">Корзина <span class="cart-counter"></span></a>
-      <div class="auth-buttons">
-        <button id="auth-btn" class="btn-auth">
-          <img src="images/user-icon.svg" alt="Войти">
-          <span>Войти</span>
-        </button>
-        <div class="auth-dropdown">
-          <form id="login-form" class="auth-form">
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Пароль" required>
-            <button type="submit" class="btn">Войти</button>
-            <div class="auth-links">
-              <a href="#" id="show-register">Создать аккаунт</a>
-              <a href="#">Забыли пароль?</a>
-            </div>
-          </form>
-          
-          <form id="register-form" class="auth-form" style="display:none">
-            <input type="text" placeholder="Имя" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Пароль" required>
-            <input type="password" placeholder="Повторите пароль" required>
-            <button type="submit" class="btn">Зарегистрироваться</button>
-            <div class="auth-links">
-              <a href="#" id="show-login">Уже есть аккаунт? Войти</a>
-            </div>
-          </form>
-        </div>
-      </div>
-    </nav>
-    <div class="mobile-menu-btn">☰</div>
-  </div>
-</header>
+    <div class="container">
+      <a href="index.html" class="logo">PixelMall</a>
+      <nav>
+        <ul>
+          <li><a href="index.html" class="active">Главная</a></li>
+          <li><a href="catalog.html">Каталог</a></li>
+          <li><a href="cart.html">Корзина <span class="cart-counter">0</span></a></li>
+          <li><a href="account.html" class="account-btn">Личный кабинет</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
   <main>
     <section class="hero">
-      <h2>Добро пожаловать в PixelMall!</h2>
-      <p class="slogan">Найдите свои идеальные технологии</p>
-      <a class="btn" href="catalog.html">Перейти в каталог</a>
-    </section>
-    <section class="features">
-      <h3>Почему выбирают нас?</h3>
-      <ul>
-        <li>Быстрая и бесплатная доставка</li>
-        <li>Удобная оплата</li>
-        <li>Поддержка 24/7</li>
-        <li>Гарантия качества</li>
-      </ul>
-    </section>
-    <section class="info-grid">
-      <div class="info-section">
-        <h3>Покупателям</h3>
-        <ul>
-          <li><a href="#">Гарантия и возврат</a></li>
-          <li><a href="#">Доставка</a></li>
-          <li><a href="#">Оплата</a></li>
-        </ul>
+      <div class="container">
+        <h1>Лучшие гаджеты по выгодным ценам</h1>
+        <a href="catalog.html" class="btn">Перейти в каталог</a>
       </div>
-      <div class="info-section">
-        <h3>Компания</h3>
-        <ul>
-          <li><a href="#">О нас</a></li>
-          <li><a href="#">Контакты</a></li>
-          <li><a href="#">Вакансии</a></li>
-        </ul>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <div class="feature">
+          <img src="images/delivery-icon.svg" alt="Доставка">
+          <h3>Быстрая доставка</h3>
+        </div>
+        <!-- Добавлены другие фичи -->
       </div>
     </section>
   </main>
-  <script src="app.js"></script>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 PixelMall. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <!-- Подключены скрипты в конце body -->
+  <script src="js/app.js"></script>
 </body>
 </html>
